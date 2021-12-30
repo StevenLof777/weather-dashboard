@@ -1,0 +1,82 @@
+:root {
+    /* How do I add the font weight and variable to one root selector? */
+    --ff-: 'Prompt', sans-serif;
+
+    /* Colors */
+    --gradient: linear-gradient(to right, #0091ff 0%, #003866 100%);
+    --blue: #0091ff;
+    --darkBlue: #003866;
+    --grey-blue:#273a49;
+    --gray-0:#f9f9fa;
+    --gray-1:#eceeef;
+    --gray-2:#eceeef;
+    --gray-3:#cfd3d7;
+    --gray-4:#bfc5c9;
+    --gray-5:#adb4b9;
+    --gray-6:#98a1a8;
+    --gray-7:#98a1a8;
+    --gray-8:#606e79;
+    --gray-9:#454e55; 
+    --green:#15410a;
+
+    /* icons */
+    /* --rain: 
+    --sun:
+    --cloud:
+    --mix:
+    --snow: */
+    
+}
+
+#weather-dashboard {
+    background: var(--gradient);
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    font-family: var(--ff-);
+    font-weight: 600;
+}
+
+h2 {
+    font-family: var(--ff-);
+    font-weight: 400;
+}
+
+p {
+    font-family: var(--ff-);
+    font-weight: 200;
+}
+
+.hide {
+    display: none;
+}
+
+.days-of-week {
+    background: var(--grey-blue);
+    color: white;
+    margin: .5rem;
+    text-align: left;
+    border-radius: .3rem;
+}
+
+.day-details {
+    text-align: left;
+    padding: 0px;
+}
+
+.user-location {
+    border: solid black .1rem;
+    border-radius: .3rem;
+
+}
+
+#search-button {
+    border: none;
+    background-color: var(--blue);
+    color: white;
+    border-radius: .3rem;   
+
+}
+
