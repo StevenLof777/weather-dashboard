@@ -77,6 +77,18 @@ p {
     background-color: var(--blue);
     color: white;
     border-radius: .3rem;   
-
+    padding: 1rem;
+    margin-top: 1rem;
 }
 
+ol, ul {
+	list-style: none;
+    padding: 0rem;
+}
+
+.history {
+    text-align: center;
+    background: var(--gray-5);
+    border-radius: .3rem;
+    margin-top: 1rem;
+}
