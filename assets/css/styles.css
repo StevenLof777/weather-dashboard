@@ -5,6 +5,7 @@
     /* Colors */
     --gradient: linear-gradient(to right, #0091ff 0%, #003866 100%);
     --blue: #0091ff;
+    --light-blue: #6dc0ff;
     --darkBlue: #003866;
     --grey-blue:#273a49;
     --gray-0:#f9f9fa;
@@ -91,4 +92,8 @@ ol, ul {
     background: var(--gray-5);
     border-radius: .3rem;
     margin-top: 1rem;
+}
+
+#search-button:hover {
+    background-color: var(--light-blue);
 }
