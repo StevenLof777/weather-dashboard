@@ -1,46 +1,44 @@
 var input = document.querySelector('#input')
 var search = document.querySelector('#search-button')
-var history = document.querySelector('.history') 
-
-renderHistory();
 
 function renderHistory() {
     var inputValue = input.value
-
     if(!input) {
         return
     }
 
-    console.log(inputValue)
-
     var li = document.createElement("li");
     var city = document.createTextNode(inputValue);
     li.appendChild(city);
-    var element = document.querySelector('.history');
-    element.appendChild(city);
-
-
+    var history = document.querySelector('.history') 
+    history.appendChild(city);
 }
 
 search.addEventListener('click', function(e) {
     e.preventDefault();
 
     var inputValue = input.value
+    var cityArr = []
 
     if (inputValue === '') {
         alert("City cannot be blank");    
+    } else {
+        cityArr.push(inputValue)
+        console.log(cityArr)
     }
 
-    localStorage.setItem("city", JSON.stringify(inputValue));
+    localStorage.setItem("cityArr", JSON.stringify(cityArr));
+    console.log(localStorage.setItem("cityArr", JSON.stringify(cityArr)));
+    var cityName = JSON.parse(localStorage.getItem(cityArr))
+    console.log(cityName)
     renderHistory();
 })
 
-async function getCurrent(input) {
+async function getCurrent() {
     var myKey = "def35bfe62d36753cee6a89b19b55b81";
-    // Change to addEventListener
-    var cityName = window.localStorage.city
+    var cityArr = JSON.parse(localStorage.getItem('cityArr'))
     var response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${myKey}`
+    `https://api.openweathermap.org/data/2.5/weather?q=${cityArr[0]}&appid=${myKey}`
     );
 
     var data = await response.json();
@@ -92,3 +90,8 @@ async function convertLongLat(lon, lat) {
     }
 }
 
+function init() {
+    renderHistory();
+  }
+  init();
+  
