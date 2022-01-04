@@ -1,5 +1,23 @@
 var input = document.querySelector('#input')
 var search = document.querySelector('#search-button')
+var weatherInfo = document.querySelector('.weather-info')
+var cityArr = []
+
+// function check to see if there is anything in local storage 
+// Use a for loop to append each item in the for loop
+// Clear renderHistory when the page loads
+// Do line 17 through 21
+
+function checkLocalStorage() {
+
+    for () {
+    var li = document.createElement("li");
+    li.addEventListener('click', historyName)
+    li.innerText = inputValue;
+    var history = document.querySelector('.history') 
+    history.appendChild(li);
+    }
+}
 
 function renderHistory() {
     var inputValue = input.value
@@ -8,17 +26,20 @@ function renderHistory() {
     }
 
     var li = document.createElement("li");
-    var city = document.createTextNode(inputValue);
-    li.appendChild(city);
+    li.addEventListener('click', historyName)
+    li.innerText = inputValue;
     var history = document.querySelector('.history') 
-    history.appendChild(city);
+    history.appendChild(li);
+}
+
+function historyName(e) {
+    getCurrent(e.target.innerText)
 }
 
 search.addEventListener('click', function(e) {
     e.preventDefault();
 
     var inputValue = input.value
-    var cityArr = []
 
     if (inputValue === '') {
         alert("City cannot be blank");    
@@ -28,23 +49,28 @@ search.addEventListener('click', function(e) {
     }
 
     localStorage.setItem("cityArr", JSON.stringify(cityArr));
-    console.log(localStorage.setItem("cityArr", JSON.stringify(cityArr)));
     var cityName = JSON.parse(localStorage.getItem(cityArr))
-    console.log(cityName)
     renderHistory();
+    getCurrent(inputValue)
 })
 
-async function getCurrent() {
+async function getCurrent(input) {
     var myKey = "def35bfe62d36753cee6a89b19b55b81";
     var cityArr = JSON.parse(localStorage.getItem('cityArr'))
+    
+    if (cityArr.length > 0) {
     var response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityArr[0]}&appid=${myKey}`
+    `https://api.openweathermap.org/data/2.5/weather?q=${input}&appid=${myKey}`
     );
 
     var data = await response.json();
     convertLongLat(data.coord.lon, data.coord.lat)
+    }
 }
-getCurrent()
+if (cityArr.length > 0) {
+    var cityArr = JSON.parse(localStorage.getItem('cityArr')) 
+    getCurrent(cityArr[0])
+}
 
 async function convertLongLat(lon, lat) {
     var myKey = "def35bfe62d36753cee6a89b19b55b81";
@@ -53,40 +79,34 @@ async function convertLongLat(lon, lat) {
     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${unit}&exclude=hourly,minutely&appid=${myKey}`
     );
 
-    var data = await response.json();
-    
     // Current Date
-    var date = new Date(data.current.dt * 1000)
+    var data = await response.json();
+    var date = new Date(data.current.dt * 1000)    
     var currentDate = document.querySelector('#current-date')
-    currentDate.append(date.toLocaleDateString());
     var currentTemp = document.querySelector('.currentTemp');
-    currentTemp.append(data.current.temp);
     var currentWind = document.querySelector('.currentWind');
-    // Not sure if this is imperial
-    currentWind.append(data.current.wind_speed += ' MPH');
-    var currentHumidity = document.querySelector('.currentHumidity');
-    currentHumidity.append(data.current.humidity + ' %');
-    // Current UVI ---- MAKE GREEN
+    var currentHumidity = document.querySelector('.currentHumidity'); 
     var currentUVIndex = document.querySelector('.currentUVIndex');
-    currentUVIndex.append(data.current.uvi);
+    
+    currentDate.innerText = date.toLocaleDateString()
+    currentTemp.innerText = 'Temp: ' + data.current.temp
+    currentWind.innerText = data.current.wind_speed += ' MPH'
+    currentHumidity.innerText = data.current.humidity + ' %'
+    currentUVIndex.innerText = data.current.uvi
 
     //5-day forecast
-    for (i = 0; i <= 4; i++) {
+    for (var i = 0; i <= 4; i++) {
+        var dayIcon = document.querySelector(`[data-icon='${i}']`); 
+        var dayTemp = document.querySelector(`[data-temp='${i}']`);
+        var dayHumidity = document.querySelector(`[data-humidity='${i}']`);
+        var dayWind = document.querySelector(`[data-wind='${i}']`);
         var date = document.querySelector(`[data-date='${i}']`)
-        // Date doesnt work
         var forecastDates = new Date(data.daily[i].dt * 1000) 
-        // Got mm/dd/yyy format from Yogi on stackoverflow
-        // https://stackoverflow.com/questions/11591854/format-date-to-mm-dd-yyyy-in-javascript
-        date.append(((forecastDates.getMonth() > 8) ? (forecastDates.getMonth() + 1) : ('0' + (forecastDates.getMonth() + 1))) + '/' + ((forecastDates.getDate() > 9) ? forecastDates.getDate() : ('0' + forecastDates.getDate())) + '/' + forecastDates.getFullYear());
-        // Icons won't work
-        var dayIcon = document.querySelector(`[data-icon='${i}']`) 
-        dayIcon.append(data.daily[i].weather.icon)
-        var dayTemp = document.querySelector(`[data-temp='${i}']`)
-        dayTemp.append(data.daily[i].temp.day + ' °');
-        var dayHumidity = document.querySelector(`[data-humidity='${i}']`)
-        dayHumidity.append(data.daily[i].humidity + '%');
-        var dayWind = document.querySelector(`[data-wind='${i}']`)
-        dayWind.append(data.daily[i].wind_speed + ' MPH');
+        date.innerText = forecastDates.toLocaleDateString()
+        dayIcon.innerText = data.daily[i].weather.icon
+        dayTemp.innerText = data.daily[i].temp.day + ' °'
+        dayHumidity.innerText = data.daily[i].humidity + '%'
+        dayWind.innerText = data.daily[i].wind_speed + ' MPH'
     }
 }
 
