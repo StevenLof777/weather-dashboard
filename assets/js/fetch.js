@@ -8,16 +8,18 @@ var cityArr = []
 // Clear renderHistory when the page loads
 // Do line 17 through 21
 
-function checkLocalStorage() {
+// var myStorage = wi
+console.log(window.localStorage.cityArr)
 
-    for () {
-    var li = document.createElement("li");
-    li.addEventListener('click', historyName)
-    li.innerText = inputValue;
-    var history = document.querySelector('.history') 
-    history.appendChild(li);
-    }
-}
+// function checkLocalStorage() {
+//     if (window.localStorage.cityArr.length == null) {
+//         console.log('null')
+//     } else {
+//         console.log('not null')
+//     }
+
+// }
+// checkLocalStorage()
 
 function renderHistory() {
     var inputValue = input.value
@@ -45,11 +47,10 @@ search.addEventListener('click', function(e) {
         alert("City cannot be blank");    
     } else {
         cityArr.push(inputValue)
-        console.log(cityArr)
+        // console.log(cityArr)
     }
 
     localStorage.setItem("cityArr", JSON.stringify(cityArr));
-    var cityName = JSON.parse(localStorage.getItem(cityArr))
     renderHistory();
     getCurrent(inputValue)
 })
@@ -59,13 +60,12 @@ async function getCurrent(input) {
     var cityArr = JSON.parse(localStorage.getItem('cityArr'))
     
     if (cityArr.length > 0) {
-    var response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${input}&appid=${myKey}`
-    );
+    var response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${input}&appid=${myKey}`);
 
     var data = await response.json();
     convertLongLat(data.coord.lon, data.coord.lat)
     }
+    // console.log(data);
 }
 if (cityArr.length > 0) {
     var cityArr = JSON.parse(localStorage.getItem('cityArr')) 
@@ -89,10 +89,10 @@ async function convertLongLat(lon, lat) {
     var currentUVIndex = document.querySelector('.currentUVIndex');
     
     currentDate.innerText = date.toLocaleDateString()
-    currentTemp.innerText = 'Temp: ' + data.current.temp
+    currentTemp.innerText = 'Temp: ' + data.current.temp + '°F'
     currentWind.innerText = data.current.wind_speed += ' MPH'
-    currentHumidity.innerText = data.current.humidity + ' %'
-    currentUVIndex.innerText = data.current.uvi
+    currentHumidity.innerText = 'Humidity: ' + data.current.humidity + ' %'
+    currentUVIndex.innerText = 'UV Index: ' + data.current.uvi
 
     //5-day forecast
     for (var i = 0; i <= 4; i++) {
@@ -104,8 +104,8 @@ async function convertLongLat(lon, lat) {
         var forecastDates = new Date(data.daily[i].dt * 1000) 
         date.innerText = forecastDates.toLocaleDateString()
         dayIcon.innerText = data.daily[i].weather.icon
-        dayTemp.innerText = data.daily[i].temp.day + ' °'
-        dayHumidity.innerText = data.daily[i].humidity + '%'
+        dayTemp.innerText = 'Temp: ' + data.daily[i].temp.day + ' °F'
+        dayHumidity.innerText = 'Humidity: ' + data.daily[i].humidity + '%'
         dayWind.innerText = data.daily[i].wind_speed + ' MPH'
     }
 }
