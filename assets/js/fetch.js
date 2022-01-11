@@ -9,17 +9,27 @@ var cityArr = []
 // Do line 17 through 21
 
 // var myStorage = wi
-console.log(window.localStorage.cityArr)
+// console.log(window.localStorage.cityArr[0].length)
 
-// function checkLocalStorage() {
-//     if (window.localStorage.cityArr.length == null) {
-//         console.log('null')
-//     } else {
-//         console.log('not null')
-//     }
 
-// }
-// checkLocalStorage()
+function checkLocalStorage() {
+    var cities = JSON.parse(window.localStorage.getItem('cityArr'))
+    if (cities.length > 0) {
+        console.log('null')
+        for (var i = 0; i < cities.length; i++ ) {
+            console.log('for loop works')
+            var li = document.createElement("li");
+            li.classList.add("city-name");
+            li.addEventListener('click', historyName)
+            li.innerText = cities[i];
+            var history = document.querySelector('.history') 
+            history.appendChild(li);
+        }
+    } 
+}
+
+
+checkLocalStorage()
 
 function renderHistory() {
     var inputValue = input.value
@@ -28,6 +38,7 @@ function renderHistory() {
     }
 
     var li = document.createElement("li");
+    li.classList.add("city-name");
     li.addEventListener('click', historyName)
     li.innerText = inputValue;
     var history = document.querySelector('.history') 
