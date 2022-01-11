@@ -1,6 +1,8 @@
 var input = document.querySelector('#input')
 var search = document.querySelector('#search-button')
 var weatherInfo = document.querySelector('.weather-info')
+
+
 var cityArr = []
 
 // function check to see if there is anything in local storage 
@@ -14,8 +16,7 @@ var cityArr = []
 
 function checkLocalStorage() {
     var cities = JSON.parse(window.localStorage.getItem('cityArr'))
-    if (cities.length > 0) {
-        console.log('null')
+    if (cities && cities.length > 0) {
         for (var i = 0; i < cities.length; i++ ) {
             console.log('for loop works')
             var li = document.createElement("li");
@@ -25,10 +26,9 @@ function checkLocalStorage() {
             var history = document.querySelector('.history') 
             history.appendChild(li);
         }
+        getCurrent(cities[cities.length - 1])
     } 
 }
-
-
 checkLocalStorage()
 
 function renderHistory() {
@@ -36,7 +36,6 @@ function renderHistory() {
     if(!input) {
         return
     }
-
     var li = document.createElement("li");
     li.classList.add("city-name");
     li.addEventListener('click', historyName)
@@ -74,7 +73,7 @@ async function getCurrent(input) {
     var response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${input}&appid=${myKey}`);
 
     var data = await response.json();
-    convertLongLat(data.coord.lon, data.coord.lat)
+    convertLongLat(data.coord.lon, data.coord.lat, data.name)
     }
     // console.log(data);
 }
@@ -83,7 +82,7 @@ if (cityArr.length > 0) {
     getCurrent(cityArr[0])
 }
 
-async function convertLongLat(lon, lat) {
+async function convertLongLat(lon, lat, cityName) {
     var myKey = "def35bfe62d36753cee6a89b19b55b81";
     var unit = 'imperial'
     var response = await fetch(
@@ -92,14 +91,15 @@ async function convertLongLat(lon, lat) {
 
     // Current Date
     var data = await response.json();
-    var date = new Date(data.current.dt * 1000)    
+    var date = new Date(data.current.dt * 1000)  
     var currentDate = document.querySelector('#current-date')
     var currentTemp = document.querySelector('.currentTemp');
     var currentWind = document.querySelector('.currentWind');
     var currentHumidity = document.querySelector('.currentHumidity'); 
     var currentUVIndex = document.querySelector('.currentUVIndex');
-    
-    currentDate.innerText = date.toLocaleDateString()
+
+    currentDate.innerText = cityName + ' ' + date.toLocaleDateString()
+
     currentTemp.innerText = 'Temp: ' + data.current.temp + '°F'
     currentWind.innerText = data.current.wind_speed += ' MPH'
     currentHumidity.innerText = 'Humidity: ' + data.current.humidity + ' %'
@@ -121,8 +121,8 @@ async function convertLongLat(lon, lat) {
     }
 }
 
-function init() {
-    renderHistory();
-  }
-  init();
+// function init() {
+//     renderHistory();
+//   }
+//   init();
   
