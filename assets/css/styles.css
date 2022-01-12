@@ -41,9 +41,11 @@
     text-align: center;
 }
 
-/* .current-icon {
-    float: right;
-} */
+.currentUVIndex {
+    width: 11%;
+    padding: 3px;
+    border-radius: 2px;
+}
 
 h1 {
     font-family: var(--ff-);
@@ -70,6 +72,7 @@ p {
     margin: .5rem;
     text-align: left;
     border-radius: .3rem;
+    max-width: 135px;
 }
 
 .day-details {
@@ -80,7 +83,6 @@ p {
 .user-location {
     border: solid black .1rem;
     border-radius: .3rem;
-
 }
 
 #search-button {
@@ -98,6 +100,10 @@ p {
     background: grey;
     border-radius: .2rem;
     padding: .5rem;
+}
+
+.city-name:hover {
+    background-color: rgb(182, 182, 182);
 }
 
 ol, ul {

@@ -23,9 +23,13 @@ function checkLocalStorage() {
             li.innerText = cities[i];
             var history = document.querySelector('.history') 
             history.appendChild(li);
+            // Delete button
         }
         getCurrent(cities[cities.length - 1])
-    } 
+    }
+    // if (cityArr.length > 5) {
+    //     cityArr.pop()
+    // } 
 }
 checkLocalStorage()
 
@@ -85,7 +89,6 @@ async function convertLongLat(lon, lat, cityName) {
     var response = await fetch(
     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${unit}&exclude=hourly,minutely&appid=${myKey}`
     );
-
     // Current Date
     var data = await response.json();
     var date = new Date(data.current.dt * 1000)  
@@ -100,9 +103,34 @@ async function convertLongLat(lon, lat, cityName) {
     currentTemp.innerText = 'Temp: ' + data.current.temp + '°F'
     currentWind.innerText = data.current.wind_speed += ' MPH'
     currentHumidity.innerText = 'Humidity: ' + data.current.humidity + ' %'
-    currentUVIndex.innerText = 'UV Index: ' + data.current.uvi
+    currentUVIndex.innerText = ' ' + data.current.uvi
     
-    console.log(data.daily[0].weather[0].icon)
+    // Refactor to a switch case?
+    var checkUVI  = () =>{
+       if (data.current.uvi < 1) {
+        currentUVIndex.style.backgroundColor = "green"
+       } else if (data.current.uvi >= 2) {
+        currentUVIndex.style.backgroundColor = "#6fa832"
+       } else if (data.current.uvi >= 3) {
+        currentUVIndex.style.backgroundColor = "##fbff24"
+       } else if (data.current.uvi >= 4) {
+        currentUVIndex.style.backgroundColor = "#a87f32"
+    }    else if (data.current.uvi >= 5) {
+        currentUVIndex.style.backgroundColor = "#ffb224"
+    }    else if (data.current.uvi >= 6) {
+        currentUVIndex.style.backgroundColor = "#ff2b24"
+    }    else if (data.current.uvi >= 7) {
+        currentUVIndex.style.backgroundColor = "#ad0c07"
+    }    else if (data.current.uvi >= 8) {
+        currentUVIndex.style.backgroundColor = "#ad0744"
+    }    else if (data.current.uvi >= 9) {
+        currentUVIndex.style.backgroundColor = "#ad0787"
+    }    else  {
+        currentUVIndex.style.backgroundColor = "#fa50db"
+    }        
+    }
+    checkUVI()
+
     //5-day forecast
     for (var i = 0; i <= 4; i++) {
         var dayIcon = document.querySelector(`[data-icon='${i}']`); 
