@@ -42,9 +42,10 @@
 }
 
 .currentUVIndex {
-    width: 11%;
+    width: 45px;
     padding: 3px;
     border-radius: 2px;
+    color :white
 }
 
 h1 {
@@ -120,3 +121,9 @@ ol, ul {
 #search-button:hover {
     background-color: var(--light-blue);
 }
+
+/* @media only screen and (max-width: 720px) {
+    row {
+      flex-direction: column;
+    }
+  } */
