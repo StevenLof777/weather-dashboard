@@ -11,14 +11,12 @@ var cityArr = []
 // Do line 17 through 21
 
 // var myStorage = wi
-// console.log(window.localStorage.cityArr[0].length)
 
 
 function checkLocalStorage() {
-    var cities = JSON.parse(window.localStorage.getItem('cityArr'))
+    var cities = JSON.parse(localStorage.getItem('cityArr'))
     if (cities && cities.length > 0) {
         for (var i = 0; i < cities.length; i++ ) {
-            console.log('for loop works')
             var li = document.createElement("li");
             li.classList.add("city-name");
             li.addEventListener('click', historyName)
@@ -55,9 +53,9 @@ search.addEventListener('click', function(e) {
 
     if (inputValue === '') {
         alert("City cannot be blank");    
+        return;
     } else {
         cityArr.push(inputValue)
-        // console.log(cityArr)
     }
 
     localStorage.setItem("cityArr", JSON.stringify(cityArr));
@@ -75,7 +73,6 @@ async function getCurrent(input) {
     var data = await response.json();
     convertLongLat(data.coord.lon, data.coord.lat, data.name)
     }
-    // console.log(data);
 }
 if (cityArr.length > 0) {
     var cityArr = JSON.parse(localStorage.getItem('cityArr')) 
@@ -97,14 +94,15 @@ async function convertLongLat(lon, lat, cityName) {
     var currentWind = document.querySelector('.currentWind');
     var currentHumidity = document.querySelector('.currentHumidity'); 
     var currentUVIndex = document.querySelector('.currentUVIndex');
-
+    var currentIcon = document.querySelector('.current-icon');
+    currentIcon.src = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png` 
     currentDate.innerText = cityName + ' ' + date.toLocaleDateString()
-
     currentTemp.innerText = 'Temp: ' + data.current.temp + '°F'
     currentWind.innerText = data.current.wind_speed += ' MPH'
     currentHumidity.innerText = 'Humidity: ' + data.current.humidity + ' %'
     currentUVIndex.innerText = 'UV Index: ' + data.current.uvi
-
+    
+    console.log(data.daily[0].weather[0].icon)
     //5-day forecast
     for (var i = 0; i <= 4; i++) {
         var dayIcon = document.querySelector(`[data-icon='${i}']`); 
@@ -114,7 +112,8 @@ async function convertLongLat(lon, lat, cityName) {
         var date = document.querySelector(`[data-date='${i}']`)
         var forecastDates = new Date(data.daily[i].dt * 1000) 
         date.innerText = forecastDates.toLocaleDateString()
-        dayIcon.innerText = data.daily[i].weather.icon
+        // console.log(data.daily[i].weather[i].icon)
+        dayIcon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`
         dayTemp.innerText = 'Temp: ' + data.daily[i].temp.day + ' °F'
         dayHumidity.innerText = 'Humidity: ' + data.daily[i].humidity + '%'
         dayWind.innerText = data.daily[i].wind_speed + ' MPH'

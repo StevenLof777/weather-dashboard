@@ -41,6 +41,10 @@
     text-align: center;
 }
 
+/* .current-icon {
+    float: right;
+} */
+
 h1 {
     font-family: var(--ff-);
     font-weight: 600;
