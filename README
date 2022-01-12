@@ -1,7 +1,7 @@
 # Weather Dashboard
 
 ## Description
-A weather dashboard that user that takes an users input and outputs the current weather details along with a 5-day forecast. Under the search bar each city In the history will be appended as buttons that can be click for their details once more.
+A weather dashboard that user that takes an user's input and outputs the current weather details along with a 5-day forecast. Under the search bar each city in the history will be appended as buttons that can be clicked for their details once more.
 
 ## User Story
 
