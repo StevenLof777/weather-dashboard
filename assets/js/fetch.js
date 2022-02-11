@@ -1,17 +1,7 @@
 var input = document.querySelector('#input')
 var search = document.querySelector('#search-button')
 var weatherInfo = document.querySelector('.weather-info')
-
-
 var cityArr = []
-
-// function check to see if there is anything in local storage 
-// Use a for loop to append each item in the for loop
-// Clear renderHistory when the page loads
-// Do line 17 through 21
-
-// var myStorage = wi
-
 
 function checkLocalStorage() {
     var cities = JSON.parse(localStorage.getItem('cityArr'))
@@ -23,13 +13,9 @@ function checkLocalStorage() {
             li.innerText = cities[i];
             var history = document.querySelector('.history') 
             history.appendChild(li);
-            // Delete button
         }
         getCurrent(cities[cities.length - 1])
     }
-    // if (cityArr.length > 5) {
-    //     cityArr.pop()
-    // } 
 }
 checkLocalStorage()
 
@@ -140,16 +126,9 @@ async function convertLongLat(lon, lat, cityName) {
         var date = document.querySelector(`[data-date='${i}']`)
         var forecastDates = new Date(data.daily[i].dt * 1000) 
         date.innerText = forecastDates.toLocaleDateString()
-        // console.log(data.daily[i].weather[i].icon)
         dayIcon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`
         dayTemp.innerText = 'Temp: ' + data.daily[i].temp.day + ' °F'
         dayHumidity.innerText = 'Humidity: ' + data.daily[i].humidity + '%'
         dayWind.innerText = data.daily[i].wind_speed + ' MPH'
     }
 }
-
-// function init() {
-//     renderHistory();
-//   }
-//   init();
-  
