@@ -23,7 +23,7 @@ SO THAT I can plan a trip accordingly
 Icons were only present on the the first day of the forecast and on the current day's forecast. The weather dot notation on line #129 incorrectly had the i variable in the index position. Once a value of 0 replaced the i variable the images would be displayed.
 
 ## Future Refactoring
-Make mobile friendly, and add a remove button to previously searched cities.
+Make mobile friendly and add a remove button to previously searched cities.
 
 ## Result
 
